@@ -34,12 +34,12 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     void  openHomePage(){
-        Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+        Intent i = new Intent(SplashActivity.this, CategoriesActivity.class);
         startActivity(i);
     }
 
     void startCount() {
-        new CountDownTimer(5000, 1000) {
+        new CountDownTimer(2000, 1000) {
 
             @Override
             public void onTick(long l) {
