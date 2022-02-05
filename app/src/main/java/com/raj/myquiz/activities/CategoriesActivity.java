@@ -5,12 +5,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.raj.myquiz.R;
 import com.raj.myquiz.adapters.MyQuizAdapter;
 import com.raj.myquiz.adapters.SimpleAdapter;
@@ -26,6 +33,7 @@ public class CategoriesActivity extends AppCompatActivity {
 
     //String[] cat = {"Java", "PHP", "Python", "C", "C++"};
     //String[] cat_details = {"new 17 ques", "20 ques", "19 ques", "C", "C++"};
+   //
 
     ArrayList categoryItems = new ArrayList<CategoryModel>();
 
@@ -51,13 +59,48 @@ public class CategoriesActivity extends AppCompatActivity {
     void initView() {
         //lv1 = findViewById(R.id.lv1);
         rv1 = findViewById(R.id.rv1);
+
+        getCategories();
         simpleRv();
 
 
     }
 
+    void getCategories(){
+
+        String url = "https://quicdeal.in/api_ex/get_cat.php";
+        RequestQueue requestQueue = Volley.newRequestQueue(CategoriesActivity.this);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        showLog(response);
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        showLog(error.getMessage());
+
+                    }
+                }
+        );
+
+
+        requestQueue.add(stringRequest);
+
+    }
+
     void showMessage(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+    void showLog(String msg) {
+        Log.e("CA", "showLog: "+msg);
     }
 
 
